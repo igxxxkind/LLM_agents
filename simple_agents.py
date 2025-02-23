@@ -7,6 +7,7 @@ The main difference to a chain: in a chain all actions are hardcoded.
 In agents, LLM decides what to do next and what tools to use based on the output of the previous action.
 Agent may loop back and repeat a previous step.
 """
+from langchain_community.document_loaders import YoutubeLoader
 from langchain_openai import ChatOpenAI
 from langchain import hub
 from langchain.agents import AgentExecutor, create_tool_calling_agent
@@ -33,4 +34,26 @@ agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 agent_executor.invoke({"input": "WHat are the most popular langchain videos on YT?", 'num_results': 5})
 
 
+from langchain_core.tools import tool
+
+@tool
+def transcibe_videos(video_url: str)->str:
+    "Extract transcripts from YT video"
+    loader = YoutubeLoader.from_youtube_url(
+        video_url, add_video_info=False
+    )
+    docs=loader.load()
+    return docs
+
+tools = [youtube_tool, transcibe_videos]
+
+agent = create_tool_calling_agent(llm_gpt4, tools, prompt)
+
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+agent_executor.invoke(
+    {
+        "input": "What topics does the rabbitmetric YT channel cover?"
+    }
+)
 
