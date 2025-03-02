@@ -15,6 +15,8 @@ from langchain.prompts import PromptTemplate
 from langchain_community.document_loaders import YoutubeLoader
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
+load_dotenv(r"D:\projects\Python\LLM_agents\.env")
 
 # import textwrap
 # from os.path import join, dirname

@@ -38,7 +38,7 @@ where input modification is needed.
 Like running the same input but returning different outputs.
 """
 summarize_prompt_template = """
-You are a helpful assistant that explains AI concepts:
+You are an experienced data analyst:
 {context}
 Summarize the context
 """
@@ -49,9 +49,12 @@ output_parser = StrOutputParser()
 
 chain = summarize_prompt | llm_gpt4 | JsonOutputParser()
 
-chain.invoke(input={"context": "Provide an example of a JSON file?"})
+chain.invoke(input={"context": "Collect the quarterly data for USGDP for the period from 1980 till 2025. Organize it in JSON formatted (date as YYYYMM, value) pairs"})
 
-print(type(chain))
+result
+
+
+# print(type(chain))
 
 ####  Runnable Lambda
 
